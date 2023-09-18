@@ -1,0 +1,45 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href={% static "assets/images/logo.svg" %} type="image/x-icon">
+    <link rel="stylesheet" href={% static "css/output.css"%} />
+    <title>Promptopia</title>
+</head>
+<body>
+    <div class="main -z-10">
+        <div class="gradient"></div>
+    </div>
+    <header class='flex items-center p-5 relative md:justify-around justify-between'>
+        <a href='/' class="flex gap-2 w-8 text-xl font-bold items-center">
+            <img src={% static "assets/images/logo.svg" %} alt="logo" />
+            <span class="max-md:hidden">Promptopia</span>
+        </a>
+        <div class="flex md:gap-3 gap-1 items-center relative">
+            {% if user_info %}
+            <div class="max-md:hidden">
+                <a class="white_btn" href="/accounts/logout/">Sign out</a>
+                <a class="black_btn" href="/post">Create Post</a>
+            </div>
+            <ul class="hidden flex-col bg-white shadow-md rounded-lg absolute top-16 w-52 right-[30%] p-5 items-end">
+                <li class="py-3 font-semibold"><a href="/profile">My profile<a/></li>
+                <li class="py-3 font-semibold"><a href="/post">Create Post</a></li>
+                <li class="w-full text-center pt-5"><a class="black_btn block" href="/accounts/logout/">Sign out</a></li>
+            </ul>
+            <img class="md:hidden block rounded-full w-12 cursor-pointer" src={{ user_info.picture }} alt="user" />
+            <img class="max-md:hidden rounded-full w-12 cursor-pointer" src={{ user_info.picture }} alt="user" />
+            {% else %}
+            <a class="black_btn" href="{% provider_login_url 'google' %}">Sign in</a>
+            {% endif %}
+
+        </div>
+    </header>
+    {% block body %}
+    {% endblock body %}
+
+    <script src={% static "js/script.js" %}></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+<div class="flex pt-28 items-center min-h-[90vh] flex-col max-md:px-5">
+    <div class="">
+        <h1 class="md:text-6xl text-4xl font-extrabold leading-[1.1] text-center">
+            Discover & Share
+            <br />
+            <span class="orange_gradient">AI-Powered Prompts</span>
+        </h1>
+        <p class="text-center text-slate-600 leading-[1.6] w-fit md:max-w-[500px] mx-auto mt-5 text-lg">
+            Promptopia is an open-source AI prompting tool for modern world to discover, create, and share creative prompts
+        </p>
+        <input class="my-input mt-10 block md:w-[600px] w-80 mx-auto px-5 py-3 outline-none rounded-md shadow-xl" type="text" placeholder="Search for a tag or a username" />
+    </div>
+    {% if user_info %}
+    <div class="grid w-[60%] max-md:w-full reapate_columns gap-5 my-20 px-5 items-center justify-center">
+        {% if posts %}
+        {% for post in posts %}
+        <div class="p-5 bg-[#ffffff05] h-full rounded-lg min-h-[250px] shadow-md relative flex flex-col gap-2 my-post">
+            <div class="flex gap-3">
+                <img class="rounded-full w-10 cursor-pointer image_profile" src={{ post.image }} data-id = {{post.postId}} alt="user" />
+                <div>
+                    <h3 class="text-sm font-bold">{{post.user.username}}</h3>
+                    <span class="text-sm text-slate-500">{{post.user.email}}</span>
+                </div>
+                <img 
+                class="absolute w-5 right-5 top-8 cursor-pointer"
+                src={% static "assets/icons/copy.svg" %} 
+                alt="copy"
+                onclick="(e) => {navigator.clipboard.writeText(document.querySelector(`${a.target.parentElement.classname} + p`).innerText)}"
+                data-num = {{post.id}}
+                
+                />
+                <div class="copy-div absolute right-2 duration-300 opacity-0 top-1 bg-black text-xs p-1 rounded text-white">Copied</div>
+            </div>
+            <p class="text-slate-600 my-p leading-[1.6] w-fit min-h-[60%] mt-4 break-words">
+                {{post.content}}
+            </p>
+            <p class="text-blue-500 cursor-pointer hover:underline w-fit">#{{post.tag}}</p>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock body %}
+

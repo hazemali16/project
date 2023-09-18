@@ -1,0 +1,23 @@
+{% extends "../base.html" %}
+{% load i18n %}
+
+
+
+{% block body %}
+<div class="flex pt-28 items-center min-h-[90vh] flex-col max-md:px-5">
+{% if process == "connect" %}
+<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+
+<p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+{% else %}
+<h1 class="md:text-6xl text-4xl font-extrabold p-5 text-center orange_gradient">{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
+
+<p class="text-center text-slate-600 leading-[1.6] w-fit md:max-w-[500px] mx-auto py-3 text-lg">{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</p>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  <button class="black_btn" type="submit">{% trans "Continue" %}</button>
+</form>
+</div>
+{% endblock body %}

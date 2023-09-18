@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+<div class="md:pl-[20%] pl-0 max-md:text-center mt-16">
+    {% if not_user %}{% else %}
+    <h1 class="md:text-6xl text-4xl font-extrabold leading-none pt-5 pb-3 blue_gradient">My Profile</h1>
+    <p class=" text-slate-600 leading-[1.6] w-full md:max-w-[500px] mt-5 text-lg">
+        Welcome to your personalized profile page
+    </p>
+    {% endif %}
+    {% if posts %}
+    <div class="pt-20 w-[60%] max-md:w-full max-md:px-5 grid reapate_columns gap-5 text-left">
+        {% for post in posts  %}
+        <div class="p-5 bg-[#ffffff05] h-full min-h-[250px] rounded-lg shadow-md relative flex flex-col gap-2">
+            <div class="flex gap-3">
+                <img class="rounded-full w-10 cursor-pointer" src={% if not_user %}{{ post.image }}{% else %}{{ user_info.picture }}{% endif %} alt="user_image" />
+                <div>
+                    <h3 class="text-sm font-bold">{{post.user.username}}</h3>
+                    <span class="text-sm text-slate-500">{{post.user.email}}</span>
+                </div>
+                <img 
+                class="absolute w-5 right-5 top-8 cursor-pointer"
+                src={% static "assets/icons/copy.svg" %} 
+                alt="copy"
+                onclick="(e) => {navigator.clipboard.writeText(document.querySelector(`${a.target.parentElement.classname} + p`).innerText)}"
+                data-num = {{post.num}}
+                />
+                <div class="copy-div absolute right-2 duration-300 opacity-0 top-1 bg-black text-xs p-1 rounded text-white">Copied</div>
+            </div>
+            <p class="text-slate-600 my-p leading-[1.6] w-fit min-h-[30%] mt-4 break-words">
+                {{post.content}}
+            </p>
+            <p class="text-blue-500 cursor-pointer hover:underline w-fit">#{{post.tag}}</p>
+            {% if not_user %}{% else %}
+            <div class="flex justify-center items-center p-3 gap-3">
+                <a class="green_gradient" href="edit/{{post.id}}">Edit</a>
+                <a class="orange_gradient" href="delete/{{post.id}}">Delete</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock body %}
+

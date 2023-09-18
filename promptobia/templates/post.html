@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="md:pl-[20%] px-5 max-md:text-center mt-16">
+    <h1 class="md:text-6xl text-4xl font-extrabold leading-none pt-5 pb-3 blue_gradient">{% if post %}Edit{% else %}Craete{% endif %} Post</h1>
+    {% if post %}{% else %}
+    <p class=" text-slate-600 leading-[1.6] w-full md:max-w-[500px] mt-5 text-lg ">
+        Create and share amazing prompts to the world and let your imagination run wild with any AI-powered platform.
+    </p>
+    {% endif %}
+    <div>
+        <form method="POST" enctype="multipart/form-data" class="bg-[#ffffff33] p-5 border w-[700px] flex gap-5 flex-col rounded-lg mt-10 max-lg:w-[500px] max-md:w-full">
+            {% csrf_token %}
+            <div class="flex flex-col gap-3">
+                <label for="textarea" class="text-lg font-bold cursor-pointer max-sm:text-base text-left">Your AI Prompt</label>
+                <textarea name="content" maxlength='1000' class="p-3 resize-none min-h-[200px] rounded-lg outline-none" id="textarea" required placeholder="Write your prompt here..." >{% if post %}{{post.content}}{% endif %}</textarea>
+            </div>
+            <div class="flex flex-col gap-3">
+                <label class="text-lg cursor-pointer max-sm:text-base text-left" for="input"><span class="font-bold">Tag</span> (#product, #webdevelopment, #idea)</label>
+                <input name="tag" {% if post %}value={{post.tag}}{% endif %} class="p-3 rounded-lg outline-none" type="text" id="input" required placeholder="#tag" />
+            </div>
+            <div class="flex justify-end gap-3">
+                <a class="black_btn" href="/">Cancel</a>
+                <input type="submit" {% if post %}value="Save"{% else %}value="Create"{% endif %}  class="cursor-pointer bg-orange-600 text-white rounded-xl py-1 px-5 border border-orange-600 duration-300 hover:bg-white hover:text-orange-600" />
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock body %}
