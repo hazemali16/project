@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import redirect, render
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.decorators import login_required
 from . import models
 import json
 from django.http import JsonResponse
@@ -47,7 +48,7 @@ def Home(request) :
 #     except:
 #         data = None
 #     return JsonResponse(data, safe=False)
-
+@login_required
 def profile(request):
     try:
         user_info = SocialAccount.objects.get(user=request.user.id)
@@ -73,7 +74,7 @@ def profile(request):
         posts = None
     return render(request, 'profile.html', {"login_user":request.user, 'user_info':user_info, "posts" : data_posts})
 
-
+@login_required
 def user_profile(request, postId):
         data_posts = []
         data = postId
@@ -105,6 +106,8 @@ def user_profile(request, postId):
         
         return render(request, 'profile.html', {"login_user":request.user, 'user_info':user_info, "posts" : data_posts, "not_user": "1"})
 
+
+@login_required
 def post(request):
     try:
         user_info = SocialAccount.objects.get(user=request.user.id)
@@ -120,6 +123,7 @@ def post(request):
         return redirect('promptobia:home')
     return render(request, 'post.html', {"login_user":request.user, 'user_info':user_info})
 
+@login_required
 def edit(request, postId):
     try:
         user_info = SocialAccount.objects.get(user=request.user.id)
@@ -137,6 +141,7 @@ def edit(request, postId):
         return redirect('promptobia:profile')
     return render(request, 'post.html', {"login_user":request.user, 'user_info':user_info, 'post':post})
 
+@login_required
 def delete(request, postId):
     try:
         user_info = SocialAccount.objects.get(user=request.user.id)
